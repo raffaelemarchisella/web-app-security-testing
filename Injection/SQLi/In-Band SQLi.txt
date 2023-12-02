@@ -1,0 +1,2 @@
+Questo tipo di SQLi 
+si riferisce a quegli attacchi dove la vulnerabilità e i dati estratti si rifanno alla stessa pagina web

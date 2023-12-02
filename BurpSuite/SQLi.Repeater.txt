@@ -1,0 +1,41 @@
+All'endpoint /about/ID c'è una vulnerabilità SQLi al parametro ID.
+Devo trovarla ed eseguire un attacco per ottenere le note riguardanti il CEO archiviate nel database.
+##
+Intercetto una richiesta ad /about/2
+dopodichè causo un errore con una richiesta ad /about/2'
+#
+Ora la risposta mi mostra dei dati preziosissimi per l'enumerazione del database:
+la query seleziona cinque colonne dalla tabella: firstName, lastName, pfpLink, role, bio
+FROM people che è il nome della tabella del database;
+possiamo usare una 'union query' per selezionare i nomi delle colonne per la tabella 'people'
+dalla tabella 'columns' nel database di default 'information_schema':
+
+/about/0 UNION ALL SELECT column_name,null,null,null,null FROM information_schema.columns WHERE table_name="people"
+
+Questo crea una union query, selezionando il nostro bersaglio e poi quattro colonne vuote (per evitare
+che la query restituisca un errore) - abbiamo anche cambiato '2' con '0' per far sì che non ritiriamo 
+nulla dalla quey (legittima) originale; ciò significa che la prima fila dal database sarà
+la risposta che volevamo dalla injected query.
+#
+Ora la risposta ci ha fornito una colonna del database nel <title> ossia 'id'
+Ma l'obiettivo ora è quello di inserire una nuova query per far sì che vengano mostrate tutte:
+
+about/0 UNION ALL SELECT column_name,null,null,null,null FROM information_schema.columns WHERE table_name="people"
+#
+Infatti ora ci fornisce: id,firstName,lastName,pfpLink,role,shortRole,bio,notes
+Identificando con successo un totale di otto colonne nella tabella.
+#
+Ora, la colonna bersaglio sarebbe 'notes', per le informazioni sul CEO che cerchiamo.
+Sappiamo 3 cose:
+-il nome della tabella è 'people'
+-il nome della colonna è 'notes'
+-l'ID del CEO è 1; e questo lo sappiamo cliccando sul suo profilo nella pagina /about/, guardando l'URL
+#
+L'ultima query che creamo è la seguente:
+
+/about/0 UNION ALL SELECT notes,null,null,null,null FROM people WHERE id = 1
+
+che ci riporta a selezionare appunto la colonna 'notes', con i dati settati su null per evitare errori, dal database 'people' dove l'ID che ci serve è ID=1
+#
+Ora sotto il <title> viene mostrato il contenuto che ci serve. Ritiro la flag.
+##

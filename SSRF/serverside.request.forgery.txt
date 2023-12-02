@@ -1,0 +1,16 @@
+	SSRF
+In questa vulnerabilità, l'utente può far sì che il webserver faccia RICHIESTE HTTP (anche modificandole) alla risorsa (un server ad esempio) scelta dall'attaccante. Ottenendo eventualmente completo controllo della pagina richiesta dal webserver.
+Si fa uso quindi della relazione tra due server, quindi tra il website vulnerabile e un altro sistema 
+o server back-end all'interno della stessa organizzazione.
+In questo modo un attacco potrebbe risultare originato dall'organizzazione host dell'app vulnerabile.
+#
+Ci sono due tipi di SSRF:
+	-REGULAR, in cui i dati tornano allo schermo dell'attaccante 
+	-BLIND, dove all'attaccante non torna nessuna informazione
+#
+IMPACT
+-Accesso ad aree non autorizzate
+-Accesso a dati di clienti/aziendali
+-Possibilità di scalare alle reti interne
+-Rivelare token/credenziali di autenticazione
+##

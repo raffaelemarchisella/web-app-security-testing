@@ -1,0 +1,34 @@
+	SQL injection
+Un'iniezione SQL è una vulnerabilità della sicurezza web che permette a un attaccante di interferire con le query dell'app al suo database. Permettendo, quindi, di ottenere e leggere dati ai quali non sarebbe inteso fargli accedere: dati appartenenti ad altri utenti, o qualsiasi altro dato che l'app è intesa a mantenere nel suo database. Questo attaccante, potrebbe leggere, modificare o eliminare dati e informazioni causando persistenti e permanenti danni e cambiamenti al contenuto e al comportamento dell'app.
+Succede nel punto in cui una web app che usa SQL inserisce user-provided data nella query SQL;
+=================================================
+Ad esempio...
+https://website.thm/blog?id=1
+
+questo URL, di un blog, farà una query SQL al database
+selezionando dalla tabella 'blog' gli oggetti dove id=1 accessibili pubblicamente
+la query dovrebbe essere simile a questa:
+SELECT * FROM blog WHERE id=1 and private=0 LIMIT 1;
+
+abbiamo detto che un SQLi entra in gioco con un user-input all'interno della 
+query al database...
+mettiamo caso che ora richiedessimo un altro URL
+https://website.thm/blog?id=1
+invece di questo modifichiamo la parte finale per 'manomettere' la query SQL:
+https://website.thm/blog?id=2;--
+perchè questo? perchè ora la query sarebbe più simile a questa:
+SELECT * FROM blog WHERE id=2;-- and private=0 LIMIT 1;
+quindi dopo id=2; finirebbe la query e il resto dopo -- sarebbe un commento
+effettivamente tornando con questa query
+SELECT * FROM blog WHERE id=2;
+che ci riporterà l'oggetto con id=2, sia esso pubblico o no.
+===================================================================================================
+A volte potrebbe essere utile controllare che tabelle sono contenute e che colonne possiedono:
+SELECT * FROM information_schema.tables
+===================================================================================================
+	TESTARE E TROVARE SQLi vuln
+-inviare il carattere ' e vedere di trovare errori o altre anomalie
+-inviare sintassi specifica SQL che faccia riferimento al valore originale dell'endpoint, cercando delle differenze sistematiche nelle risposte dell'app
+-inviare condizioni Boolean come 1=1 oppure 1=2, e cercare differenze nelle risposte
+-inviare payload nelle richieste in modo che triggerino un time-delay quando eseguiti da una query SQL, per cercare differenze nel tempo impiegato dalla risposta
+-

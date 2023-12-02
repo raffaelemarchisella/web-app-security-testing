@@ -1,0 +1,2 @@
+Questo è un metodo semplice per ottenere informazioni dal database siccome i messaggi di errore 
+vengono mostrati direttamente sulla pagina browser. Utile quindi per enumerare un database intero.

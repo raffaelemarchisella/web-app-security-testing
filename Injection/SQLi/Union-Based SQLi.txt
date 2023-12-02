@@ -1,0 +1,2 @@
+Utilizza l'operatore UNION con SELECT per recuperare differenti dati dal database, ed è il metodo
+migliore e anche più comune per raccogliere grandi quantità di informazioni.

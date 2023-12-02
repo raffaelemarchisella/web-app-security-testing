@@ -1,0 +1,25 @@
+Un SQLi BLIND si ha quando i messaggi di errore sono stati disabilitati dal sito e qundi non riceveremo (o quasi) alcun tipo di feedback, nonostante ciò l'SQLi funzionerà lo stesso.
+##
+BYPASS AUTENTICAZIONE
+Una delle tecniche migliori per cui è impiegato il Blind SQLi è per bypassare una forma di login.
+Non andremo ad ottenere delle informazioni ma possiamo usare questa iniezione per passare oltre la 
+fase di login.
+
+Bisogna capire prima come funziona la forma di login.
+Il database della web app non è interessato nel contenuto dell'username o della password, quanto piuttosto dal fatto che le due matchino.
+O messa meglio. 
+web app: "hai un username bob e una password bob123?"
+database: "Sì! Passa allora!"/"No. Non ti lascio passare."
+
+Dato quanto sopra, quindi, l'obiettivo è costruire una query (domanda) che risponda con un sì.
+
+
+Nell'esempio la query SQL è quanto segue:
+SELECT * FROM users where username='%username%' and password='%password%' LIMIT 1;
+
+utilizzando ' OR 1=1;--
+faremo sì che il risultato portato dalla query sia sempre vero
+
+diventando
+SELECT * FROM users WHERE username='' and password='' OR 1=1;--'
+restituendo un campo vero ci permetterà passare il login

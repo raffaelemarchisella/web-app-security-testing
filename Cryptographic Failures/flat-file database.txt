@@ -1,0 +1,3 @@
+Spesso i dati di un server vengono immagazzinati all'interno di un server database gestito dall'engine e dalle funzionalità dell'SQL. Altre volte però un database può essere immagazzinato come un semplice file unico, questo tipo di database si chiama "flat-file", ed è spesso salvato sul disco di un computer.
+Sono più semplici da preparare e qundi si possono trovare più spesso nel panorama delle piccole web app, non dovendo preparare un intero server database.
+ 

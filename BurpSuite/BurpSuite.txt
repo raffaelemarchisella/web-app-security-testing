@@ -1,0 +1,70 @@
+	CHE COS'E'?
+E' un framework scritto in Java, che vuole provvedere a fornire uno sportello unico
+per il pentest di web app.
+
+E' il tool standard nell'industria utilizzato appunto nella valutazione pratica della sicurezza di queste web app, e non solo. Infatti, è usato anche per verificare la sicurezza di app per mobile, in quanto molte sue features si traslano perfettamente nel testing degli APIs che fanno funzionare molte app per mobile.
+
+BurpSuite può catturare e manipolare tutto tutto il traffico tra un attaccante e un webserver obiettivo: questo è il cuore del framework.
+Dopo aver catturato le richieste, possiamo scegliere di inviarle a varie altre parti del framework di Burp Suite. Infatti, si basa sulla MANIPOLAZIONE DEL TRAFFICO HTTP/HTTPS tra un browser e il web server.
+
+===================================================================================================
+
+
+	TOOLS DISPONIBILI NEL FRAMEWORK
+Intercettando le richieste si ha la flessibilità di indirizzarle a vari componenti del framework, l'abilità di intercettare, visualizzare e modificare le richieste web prima che raggiungano il web server o anche manipolare le risposte prima di riceverle sul nostro browser rendono BurpSuite un grande tool per il pentesting manuale delle applicazioni web.
+
+
+BURP SUITE PROFESSIONAL:
+-Scan vulnerabilità automatico
+-Fuzzer/Brute-forcer senza rate limit
+-Mantenere progetti, per uso futuro/reports
+-API per integrazione con altri tools
+-Aggiungere nuove estensioni senza restrizioni
+-BurpSuite Collaborator, request catcher self-hosted/portswigger-owned server
+
+BURP SUITE ENTERPRISE:
+-Auto vuln scanner per web apps
+-Risiede su un server
+
+Sebbene abbia meno features rispetto alla sua versione più avanzata e professionale, BurpSuite Community ha disponibili ancora dei tools eccellenti:
+
+-Proxy: 	la feature più conosciuta, il Burp Proxy permette di intercettare e modificare richieste/risposte quando interagiamo con una web app;
+
+-Ripetitore:	ci permette di prendere una richiesta catturata dal Proxy, modificarla e poi reinviare la stessa richiesta più volte. Questa funzionalità può essere di valore inestimabile, specialmente quando dobbiamo creare un payload attraverso trial-and-error (ad esempio in un SQLi) o quando si testa la funzionalità di un endpoint pokkandolo per difetti. Con l'Inspector a destra, possiamo visualizzare
+in modo facile le query, gli header e così via, potendoli modificare.
+
+-Intruder:	usato per riempire un endpoint di richieste HTTP più volte, perhcè le automatizza - utile nel caso di 'bruteforce' o 'fuzzing'
+
+-Decoder:	decodifica le informazioni acquisite o codifica prima di inviarle
+
+-Comparatore:	confrontare due pezzi di dati a livello-byte o di parola
+
+-Sequenziatore:	valuta i token dei cookie che dovrebbero essere generati per mantenere la web app sicura
+
+===================================================================================================
+
+CONFIGURAZIONE
+
+DUE TABELLE DI OPZIONI:
+USER
+
+Questa ha quattro finestre.
+-Connections: ci permette per esempio di gestire in che modo Burp crea una connessione al bersaglio,               magari attraverso un Proxy;
+-TLS(Transport Layer Security): abilitare/disabilitare opzioni TLS, nonchè fornsice un posto in cui                                 caricare i certificati client;
+-Display: ci consente di modificare e personalizzare il look di Burp (carattere, dark mode);
+-Misc: ampia varietà di imppostazioni, hotkeys per esempio
+
+&
+
+PROJECT
+queste possono sovrascrivere le impostazioni globali, siccome fanno riferimento al solo progetto corrente.
+
+Questa ha però cinque finestre.
+-HTTP: definisce come Burp gestisce i vari aspetti del protocollo HTTP, se seguire o no redirects o        come gestire codici di risposta inusuali;
+-Sessions: opzioni per la gestione delle sessioni, e come ottenere, salvare e usare i cookies di            sessione che riceve dai vari siti bersaglio - e utilizzare macros per automatizzare cose            come log in in una web app (dandoci subito la sessione autenticata);
+-Connections: ci permette di settare un proxy solo per il progetto, sovrascrivere qualsiasi 	      impostazione (proxy) dell'utente 
+	 	"Hostname Resolution" mappa gli IP dei domini 
+		"Out-of-Scope Requests" determina se verrranno inviate richieste a tutto ciò che non 		                                stiamo prendendo esplicitamente di mira;
+-TLS: mostra una serie di certificati pubblici per i siti che abbiamo visitato;
+-Misc: alcune opzioni qui sono accessibili solo alla versione Pro - possiede impostazioni relative al log in e al browser incorporato;
+

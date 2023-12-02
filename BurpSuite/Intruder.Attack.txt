@@ -1,0 +1,18 @@
+ATTACK TYPES
+============
+Sniper	- Perfetto per quando stiamo fuzzando un endpoint o bruteforcing una password 
+	in attacchi su una singola posizione
+	ci permette di prendere UN SET di payload e provarlo A TURNO sulle diverse posizioni
+	il set (unico) di payload può essere un file singolo oppure una wordlist per esempio
+	nrichieste = nparole * nposizioni
+
+Battering Ram	- UN SET di payload, come lo sniper ma a differenza sua,
+		prova lo stesso payload IN OGNI POSIZIONE INSIEME, invece che a turni
+
+Pitchfork	- usa UN SET PER POSIZIONE, con un max di 20 sets
+		provandoli simultaneamente
+
+Cluster Bomb	- SET MULTIPLI, MAX 20, UNO PER POSIZIONE
+		li prova INDIVIDUALMENTE, facendo sì che ogni combinazione possibile
+		sia provata, alto traffico con payload più grandi di qualche riga
+		es. 3 set: 100righe, 2 righe, 30 righe > 6000 richieste(combinazioni)

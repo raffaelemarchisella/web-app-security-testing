@@ -1,0 +1,20 @@
+E' una vulnerabilità della sicurezza web, in cui un attaccante può leggere le risorse del OS del server, come file locali ecc. exploitando questa vulnerabilità, manipolando e abusando l'URL della web app per trovare e accedere a files o directory al di fuori della root directory dell'app.
+
+VULN IN PHP
+C'è una funzione in PHP che causa una vulnerabilità di directory traversal, file_get_contents
+
+si può testare il parametro dell'URL per vedere come si comporta la web app e potenzialmente trovare directory utili e vulnerabili. Questi attacchi di path traversal, anche chiamati "dot-dot-slash attacks" sfruttano la possibilità di skippare diverse directory nel percorso.
+
+ad esempio l'input potrebbe diventare qualcosa del tipo:
+	http://webapp.thm/get.php?file=../../../../etc/passwd
+
+(dove i ../ permettono appunto di muoversi di una directory)
+dal percorso /var/www/app/CVs
+raggiungendo un nuovo percorso/una nuova directory vulnerabile
+in /etc/passwd
+
+la web app quindi mostrerà semplicemente il file passwd all'utente
+
+STESSA COSA VALE 
+per Windows OS e Linux
+

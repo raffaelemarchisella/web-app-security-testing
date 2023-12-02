@@ -1,0 +1,26 @@
+Ho un sito web dove fare acquisti, dove posso controllare lo stock di un articolo.
+L'obiettivo è di eseguire un attacco SSRF qui:
+https://0a9d00ff04dcd7868238f70500ba00eb.web-security-academy.net/product?productId=2
+Per accedere alla pagina:
+localhost/admin
+#
+Allora attivo il proxy burp per intercettare le richieste,
+premo il pulsante per controllare lo stock sulla web app,
+e intercetto la richiesta.
+La sposto al Repeater.
+rimuovo appunto blablabla.../product?productId=2
+sostituisco l'URL con:
+http://localhost/admin
+e invio la richiesta con il Repeater.
+In questo modo il server cercherà i contenuti di quell'URL.
+#
+Quindi, scopro la pagina
+/admin/delete?username=carlos
+#
+Modifico la richiesta del Repeater con il mio attacco SSRF
+http://localhost/admin/delete?username=carlos
+#
+Qui è fatta.
+##
+Dalla pagina dello stock ho avuto accesso alla pagina admin e ho potuto eliminare con successo un account.
+

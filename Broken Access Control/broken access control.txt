@@ -1,0 +1,10 @@
+I siti web hanno pagine alle quali l'utente comune non dovrebbe avere accesso; vi hanno accesso solamente gli admin. Quando un visitatore regolare può accedere a queste pagine, significa che c'è una 
+BROKEN ACCESS CONTROLL vulnerability.
+
+Potrebbe quindi avere accesso a:
+-visualizzare informazioni sensibili
+-accedere a funzionalità non-autorizzate
+
+Permette quindi, di bypassare l'autorizzazione all'interno di un sito, accedendo a contenuti
+ai quali non si è autorizzati.
+ 

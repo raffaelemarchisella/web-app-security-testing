@@ -1,0 +1,122 @@
+				LOCAL FILE INCLUSION
+
+	Sono attacchi a web app che avvengono per colpa di poca consapevolezza di sicurezza di uno sviluppatore - con PHP (un linguaggio usato prevalentemente per web development) l'uso di funzioni
+come "include", "include_once", "require", "require_once" può spesso contribuire a applicazioni web
+vulnerabili. Nota: attacco LFI succede anche con ASP, JSP, Node.js.
+
+	Questi attacchi, seguono lo stesso concetto del Directory Traversal. E consistono nel
+	ottenere accesso a file di sistema senza autorizzazione.
+
+Possiamo fare un attacco LFI in diversi modi, tra i quali modificare l'header di richiesta, da HTTP provare a usare GET, ad esempio.
+
+------------------------
+ESEMPIO
+
+<?PHP 
+	include($_GET["lang"]);
+?>
+
+http://webapp.thm/index.php?lang=EN.php
+
+il codice sopra, invia una richiesta GET via il parametro URL "lang" per includere il file della pagina.
+
+con la richiesta HTTP lang=EN.php per caricare la pagina inglese, mentre lang=AR.php per quella araba.
+i due file .php si trovano nella stessa directory.
+
+il file /etc/passwd/ che su Linux contiene informazioni preziose sugli utenti del sistema operativo, possiamo provare: 
+http://webapp.thm/get.php?file=/etc/passwd
+
+e questo FUNZIONA, PERCHE'? PERCHE' NEL CODICE IN ALTO NON C'E' UNA DIRECTORY SPECIFICATA nella 
+funzione "include" a nessuna validazione input.
+
+------------------------
+
+che succederebbe se la directory venisse specificata?
+
+<?PHP 
+	include("languages/". $_GET['lang']); 
+?>
+
+se hai risposto, "path traversal" hai capito bene.
+ecco il payload: 
+
+http://webapp.thm/index.php?lang=../../../../etc/passwd
+
+	(anche in questo caso, non è stato validato l'input) 
+
+------------------------                                                       ( ͡° ͜ʖ ͡°)
+
+Ecco, in questi due casi, ci è stato fornito il codice per la web app. Nel caso in cui stessimo
+testando in black box (cioè senza codice sorgente), una risorsa utile sono proprio gli errori. Per esempio inserendo un input non valido, questo potrebbe essere il risultato:
+
+Warning: include(languages/THM.php): failed to open stream: No such file or directory in /var/www/html/THM-4/index.php on line 12
+
+...così trovando la funzione include: include(languages/THM.php);
+inoltre, scopriamo che: -la funzione include i file nella directory aggiungendo .php
+			-la directory è /languages/
+			-il path completo della web app è: /var/www/html/THM-4/
+
+http://webapp.thm/index.php?lang=../../../../etc/passwd
+
+questo sarebbe il risultato MA
+se PHP usato è una versione inferiore a lla 5.3.4, allora si può usare un piccolo "trick"
+ossia aggiungere il Null Byte (%00) alla fine, che dice alla funzione include di ignorare 
+qualsiasi cosa dopo di esso:
+
+http://webapp.thm/index.php?lang=../../../../etc/passwd%00
+
+------------------------
+	
+Oh, no stanno filtrando il nostro amato /etc/passwd/ per nascondere informazioni sensibili!!!
+No problemo.
+		ʕ•ᴥ•ʔ
+
+
+http://10.10.106.19/lab4.php?file=/etc/passwd/.
+
+ecco, quel puntino è il nostro exploit
+	(è come quando utilizziamo cd . (current directory) invece di cd .. (parent directory))
+
+------------------------
+
+Maledizione! A sto giro si sono svegliati... stanno iniziando a usare la validazione dell'input
+filtrando delle keyword (in questo caso ../ per raggirare il nostro piccolo exploit della directory traversal)
+
+quindi come si procede qui? li si percula semplicemente, ecco: 
+....//....//....//....//....//etc/passwd
+
+inviando questo payload, lo potremo bypassare perchè se rimuovi ../ rimani precisamente con:
+../../../../etc/passwd
+
+PHP DEV ORA: ಠ╭╮ಠ
+
+------------------------
+
+Beh, ora forzano la funzione a leggere solo da una specifica directory...
+THM-Profile/ 	in questo caso...
+No problemo.
+		ಠ‿↼
+			ci basta specificare la directory e fare il nostro bel path traversal:
+
+http://10.10.106.19/lab6.php?file=THM-profile/../../../../etc/os-release
+
+
+File Content Preview of THM-profile/../../../../etc/os-release
+NAME="Ubuntu" VERSION="12.04.5 LTS, Precise Pangolin" ID=ubuntu ID_LIKE=debian PRETTY_NAME="Ubuntu precise (12.04.5 LTS)" VERSION_ID="12.04" 
+
+===================================================================================================
+
+Ho cercato una vulnerabilità in questo modo.
+Il sito mi diceva che potevo accedere solo se sono un admin così ho
+modificato il cookie header in "admin"
+e ho visto che effettivamente mi ridava la pagina 
+così ho provato a inserire /etc/flag1 
+e nulla...
+così ho provato con ../../../../etc/flag1
+e fortunatamente ha funzionato! 
+c00k13_i5_yuMmy1
+
+
+
+
+

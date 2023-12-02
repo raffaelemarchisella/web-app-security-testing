@@ -1,0 +1,14 @@
+è una tecnica per includere file remoti su una app vulnerabile. Come LFI, un RFI occorre quando
+non vi è una propria sanitizzazione dell'input dell'utente, 
+permettendo ad un attaccante di inject un URL esterno nella funzione 'include'.
+Un requisito è che la funzione 'allow_url_open' sia 'on'.
+
+Queste sono più pericolose delle LFI, perchè permettono ad un attaccante di ottenere Remote Command Execution (RCE) sul server.
+Altre conseguenze sono: 
+Divulgazione di Informazioni Sensibili
+XSS
+DoS
+
+------------------------
+Un server esterno dovrà quindi essere in contatto con l'app server per un RFI, dove l'utente carica files maliziosi sul loro server. Poi, il file è iniettato nella funzione 'include' via richieste HTTP, e il contentuto del file malizioso si esegue sul server dell'app server vulnerabile.
+

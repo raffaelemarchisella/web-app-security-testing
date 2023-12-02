@@ -1,0 +1,2 @@
+Un attacco brute force è un processo automatizzato che prova un elenco di password comunemente utilizzate contro un singolo nome utente o, come nel nostro caso, un elenco di nomi utente.
+

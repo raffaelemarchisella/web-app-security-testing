@@ -1,0 +1,32 @@
+In questo lab, la web app ha una 'stock check' feature che cerca dati in un sistema interno.
+Portando un attacco SSRF al sistema back-end.
+Devo scannerizzare l'IP interno 192.168.0.X per trovare un'interfaccia admin al port 8080, per poi
+cancellare l'user 'carlos'.
+##
+Per fare ciò, dovrò usare Intruder.
+Mi permette di modificare il payload della richiesta a mio piacimento, in questo caso vado a fare qualche ritocco.
+#
+Intercetto la richiesta del 'check stock' come al solito.
+La porto all'Intruder.
+Qui modifico l'opzione con l'URL:
+http://192.168.0.1:8080/admin
+Premendo su Add$
+posso modificare l'1 con il payload.
+Nella pagina payload setto il tipo a 'Numbers' poi 
+Da 1
+A 255
+con step incrementali di 1
+#
+Così facendo, la richiesta controllerà per ogni step l'IP alla porta 8080 per la pagina /admin
+#
+Start Attack.
+##
+Ora l'Intruder sta mostrandomi i risultati, tutti e 255 verranno provati.
+Dopo cercherò lo status code 200 per un risultato positivo, mostrandomi l'interfaccia admin.
+#
+Qui prendo l'IP trovato .130
+lo uso per inviare la richiesta HTTP
+192.168.0.130/admin
+a cui ho accesso all'interfaccia admin
+dalla quale posso cancellare gli account
+##

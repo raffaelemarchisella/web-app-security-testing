@@ -1,0 +1,28 @@
+IDOR (Insecure Direct Object Reference)
+Quando il programmatore lascia una Direct Object Reference, lasciando scoperto un identificatore che fa riferimento a un oggetto specifico all'interno del webserver. Quindi, files, utenti, conto bancario, qualsiasi cosa.
+
+	si ha quando il server web si fida troppo dell'input dell'utente e potrebbe confermare comunque
+	la richiesta ad un oggetto al quale non potrebbe accedere
+	
+
+	http://online-service.thm/profile?user_id=1305
+
+		posso cambiare l'user_id a "1000"
+	http://online-service.thm/profile?user_id=1000
+
+	
+		ed entrare così semplicemente nell'account di un altro utente
+
+	questa è una IDOR
+
+===================================================================================================
+
+https://10-10-21-92.p.thmlabs.com
+
+al sito cerco una IDOR, creando un account, noto che nell'ISPEZIONA - NETWORK c'è una richiesta
+al mio user id , ovviamente 
+
+/api/v1/customer?id=15
+
+quindi posso provare ad editare la richiesta GET di questo file .json per ottenere id=1 oppure id=3
+ed avere accesso ad username e mail di adam e jhonny

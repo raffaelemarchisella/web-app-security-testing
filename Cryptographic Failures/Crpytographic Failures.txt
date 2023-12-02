@@ -1,0 +1,13 @@
+Queste falle nella crittografia avvengono quando dei dati non vengono crittografati, o cifrati, correttamente dopo un errato utilizzo degli algoritmi criptografici, fallendo nella protezione di 
+dati, informazioni sensibili e quant'altro. Le web app richiedono una corretta crittografia
+per provvedere alla confidenzialità dei loro utenti su più livelli.
+L'impatto di queste vulnerabilità è piuttosto alto siccome potrebbero portare all'esposizione
+di dati sensibili.
+
+Esempio su una app email:
+-accedendo al tuo account email dal tuo browser vuoi assicurarti che le comunicazioni tra te e il server 
+vengano correttamente crittografate al fine di evitare che i pacchetti di rete vengano catturati
+e letti, impedendo a qualcun altro di recuperarne il contenuto. Quando crittografiamo il traffico di rete tra il client e il server si parla di "CRITTOGRAFIA DEI DATI IN TRANSITO"
+
+-Dal momento in cui le tue email sono mantenute su un server gestito da un provider bisogna far sì che anche il tuo provider non le legga, quindi questi dati verranno crittografati all'interno del server.
+Qui si parla invece di "CRITTOGRAFIA DEI DATI A RIPOSO"

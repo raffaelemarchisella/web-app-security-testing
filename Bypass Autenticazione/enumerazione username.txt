@@ -1,0 +1,24 @@
+					USERNAME ENUMERATION	
+===================================================================================================
+
+-TROVARE VULNERABILITA' NELL'AUTENTICAZIONE
+	quindi creare una lista di username validi per l'accesso
+
+es.: in questo caso, ho provato ad accedere con credenziali casuali con l'USERNAME "admin" e infatti
+ho ricevuto l'errore "An account with this username already exists"
+possiamo quindi usare FFUF per creare una lista di username validi
+
+
+
+ffuf -w /usr/share/wordlists/SecLists/Usernames/Names/names.txt -X POST -d "username=FUZZ&email=x&password=x&cpassword=x" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.190.202/customers/signup -mr "username already exists"
+
+
+
+-w path/to/list/ per la lista di username da controllare
+-X 	specifica il metodo di richiesta, in questo caso era POST
+-d 	specifica quali dati inviamo, in questo caso username e password , dove l'username FUZZ 	specifica dove vanno messi i contenuti della wordlist nella richiesta
+-H 	per aggiungere altri header
+-u	specifica URL
+-mr	serve per validare che abbiamo trovato un username
+
+===================================================================================================

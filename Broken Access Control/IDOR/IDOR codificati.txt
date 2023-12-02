@@ -1,0 +1,4 @@
+i dati, passati da un web all'altro vengono codificati per sicurezza, per trovare una vulnerabilità IDOR basti pensare che il metodo di codifica più comune è il base64 - per trovare gli ID nascosti da codifica, si può decodificare il contenuto dell'URL per individuare una IDOR (codificata) per poi modificarlo, ricodificarlo e inviare di nuovo la richiesta al server web per vedere che succede.
+
+https://www.base64decode.org/
+https://www.base64encode.org/
